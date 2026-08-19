@@ -50,8 +50,12 @@ func commandAddFeed(args []string, state *cliState) error {
 		return fmt.Errorf("db error: %w", err)
 	}
 
-	fmt.Println(feed)
+	err = commandFollow([]string{feedURL}, state)
+	if err != nil {
+		return err
+	}
 
+	fmt.Println(feed)
 	return nil
 }
 
@@ -62,6 +66,36 @@ func commandFeeds(args []string, state *cliState) error {
 	}
 
 	fmt.Println(feeds)
+	return nil
+}
+
+func commandFollow(args []string, state *cliState) error {
+	url := args[0]
+
+	params := database.CreateFeedFollowParams{
+		ID:        uuid.New(),
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+		Name:      state.config.CurrentUserName,
+		Url:       url,
+	}
+
+	followedFeed, err := state.db.CreateFeedFollow(context.Background(), params)
+	if err != nil {
+		return fmt.Errorf("db error: %w", err)
+	}
+
+	fmt.Println(followedFeed)
+	return nil
+}
+
+func commandFollowing(args []string, state *cliState) error {
+	followedFeeds, err := state.db.GetFeedFollowsForUser(context.Background(), state.config.CurrentUserName)
+	if err != nil {
+		return fmt.Errorf("db error: %w", err)
+	}
+
+	fmt.Println(followedFeeds)
 	return nil
 }
 

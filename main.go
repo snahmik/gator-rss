@@ -12,14 +12,16 @@ import (
 
 func main() {
 	systemCommands := map[string]cliCommand{
-		"login":    {args: []string{"username"}, description: "Login to Gator RSS", callback: commandLogin},
-		"register": {args: []string{"username"}, description: "Registers a new user to Gator RSS", callback: commandRegister},
-		"users":    {args: []string{}, description: "Lists all registered users", callback: commandUsers},
-		"agg":      {args: []string{"feedURL"}, description: "Displays the feed available for a given URL", callback: commandAgg},
-		"addfeed":  {args: []string{"feedName", "feedURL"}, description: "Adds a new feed to Gator RSS", callback: commandAddFeed},
-		"feeds":    {args: []string{}, description: "Lists all registered feeds", callback: commandFeeds},
-		"reset":    {args: []string{}, description: "Removes all registered users", callback: commandReset},
-		"help":     {args: []string{}, description: "Displays this help menu", callback: commandHelp},
+		"login":     {args: []string{"username"}, description: "Login to Gator RSS", callback: commandLogin},
+		"register":  {args: []string{"username"}, description: "Registers a new user to Gator RSS", callback: commandRegister},
+		"users":     {args: []string{}, description: "Lists all registered users", callback: commandUsers},
+		"agg":       {args: []string{"feedURL"}, description: "Displays the feed available for a given URL", callback: commandAgg},
+		"addfeed":   {args: []string{"feedName", "feedURL"}, description: "Adds a new feed to Gator RSS", callback: commandAddFeed},
+		"feeds":     {args: []string{}, description: "Lists all registered feeds", callback: commandFeeds},
+		"follow":    {args: []string{"feedURL"}, description: "Follows a given URL", callback: commandFollow},
+		"following": {args: []string{}, description: "Lists all followed feeds of current user", callback: commandFollowing},
+		"reset":     {args: []string{}, description: "Removes all registered users", callback: commandReset},
+		"help":      {args: []string{}, description: "Displays this help menu", callback: commandHelp},
 	}
 
 	systemConfig, err := config.Read()
