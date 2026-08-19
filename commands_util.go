@@ -24,8 +24,8 @@ func commandHelp(args []string, state *cliState) error {
 	println("")
 
 	fmt.Printf("%-10s %-20s %s \n", "Command", "Usage", "Description")
-	for _, acceptedCommand := range acceptedCommands {
-		fmt.Printf("%-10s %-20s %s \n", acceptedCommand.name, getCommandArgString(acceptedCommand), acceptedCommand.description)
+	for key, acceptedCommand := range acceptedCommands {
+		fmt.Printf("%-10s %-20s %s \n", key, getCommandArgString(acceptedCommand), acceptedCommand.description)
 	}
 
 	return nil

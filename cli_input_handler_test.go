@@ -14,12 +14,12 @@ func TestExtractUserInput(t *testing.T) {
 
 	testCases := []struct {
 		name     string
-		input    string
+		input    []string
 		expected funcValues
 	}{
-		{name: "empty input", input: "", expected: funcValues{cmd: "", args: []string{}, wantError: true}},
-		{name: "single word", input: "foo", expected: funcValues{cmd: "foo", args: []string{}, wantError: false}},
-		{name: "multi word", input: "foo bar foo", expected: funcValues{cmd: "foo", args: []string{"bar", "foo"}, wantError: false}},
+		{name: "empty input", input: []string{}, expected: funcValues{cmd: "", args: nil, wantError: true}},
+		{name: "single word", input: []string{"foo"}, expected: funcValues{cmd: "foo", args: nil, wantError: false}},
+		{name: "multi word", input: []string{"foo", "bar", "foo"}, expected: funcValues{cmd: "foo", args: []string{"bar", "foo"}, wantError: false}},
 	}
 
 	for _, tc := range testCases {

@@ -10,11 +10,6 @@ import (
 )
 
 func commandRegister(args []string, state *cliState) error {
-	if len(args) < 1 {
-		//todo return usage guide
-		return fmt.Errorf("missing argument")
-	}
-
 	username := args[0]
 	params := database.CreateUserParams{
 		ID:        uuid.New(),
@@ -35,11 +30,6 @@ func commandRegister(args []string, state *cliState) error {
 }
 
 func commandLogin(args []string, state *cliState) error {
-	if len(args) < 1 {
-		//todo return usage guide
-		return fmt.Errorf("missing argument")
-	}
-
 	username := args[0]
 
 	user, err := state.db.GetUser(context.Background(), username)
@@ -59,6 +49,7 @@ func commandUsers(args []string, state *cliState) error {
 	for _, user := range users {
 		if state.config.CurrentUserName == user.Name {
 			fmt.Printf("%s (current)\n", user.Name)
+			continue
 		}
 		fmt.Println(user.Name)
 	}

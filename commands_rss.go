@@ -6,7 +6,10 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"time"
 
+	"github.com/google/uuid"
+	"github.com/snahmik/gator-rss/internal/database"
 	"github.com/snahmik/gator-rss/internal/types"
 )
 
@@ -20,13 +23,45 @@ func commandAgg(args []string, state *cliState) error {
 
 	feedURL := "https://www.wagslane.dev/index.xml"
 
-	feed,err := fetchFeed(context.Background(), feedURL)
+	feed, err := fetchFeed(context.Background(), feedURL)
 	if err != nil {
-		return err
+		return fmt.Errorf("db error: %w", err)
 	}
 
 	fmt.Println(feed)
 
+	return nil
+}
+
+func commandAddFeed(args []string, state *cliState) error {
+	feedName := args[0]
+	feedURL := args[1]
+
+	params := database.AddFeedParams{
+		ID:        uuid.New(),
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+		Name:      feedName,
+		Url:       feedURL,
+		Name_2:    state.config.CurrentUserName,
+	}
+	feed, err := state.db.AddFeed(context.Background(), params)
+	if err != nil {
+		return fmt.Errorf("db error: %w", err)
+	}
+
+	fmt.Println(feed)
+
+	return nil
+}
+
+func commandFeeds(args []string, state *cliState) error {
+	feeds, err := state.db.GetFeeds(context.Background())
+	if err != nil {
+		return fmt.Errorf("db error: %w", err)
+	}
+
+	fmt.Println(feeds)
 	return nil
 }
 
